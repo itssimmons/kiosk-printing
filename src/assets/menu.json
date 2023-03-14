@@ -1,0 +1,32 @@
+[
+  {
+    "id": "1678760095302",
+    "name": "Big Mac",
+    "price": 4.99,
+    "preview": "/assets/burgers/bigmac.webp"
+  },
+  {
+    "id": "1678760106736",
+    "name": "Cheeseburger",
+    "price": 3.99,
+    "preview": "/assets/burgers/cheeseburger.png"
+  },
+  {
+    "id": "1678760111886",
+    "name": "Quarter Pounder",
+    "price": 3.99,
+    "preview": "/assets/burgers/quarter.png"
+  },
+  {
+    "id": "1678760117708",
+    "name": "Happy Meal",
+    "price": 2.99,
+    "preview": "/assets/burgers/happymeal.png"
+  },
+  {
+    "id": "1678760123176",
+    "name": "McFlurry Oreo",
+    "price": 1.99,
+    "preview": "/assets/burgers/mcflurry.png"
+  }
+]
