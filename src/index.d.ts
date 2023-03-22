@@ -10,3 +10,10 @@ export interface Order {
   quantity: number;
   order: Catalog;
 }
+
+export interface Ticket {
+  total: string;
+  price: string;
+  title: string;
+  subtitle: string;
+}

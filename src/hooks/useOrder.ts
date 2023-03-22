@@ -1,33 +1,38 @@
 import { sumOrders } from "../helpers/sum";
-import type { Order } from "..";
-import { setupOrder } from "../setups";
 import { totalProducts } from "../helpers/totalProducts";
+import { setupOrderCounter, setupOrder } from "../setups";
+import type { Order } from "..";
 
 export default () => {
   let memoOrders: Order[] = [];
   const setMemoOrders = (orders: Order[]) => {
     memoOrders = orders;
-    localStorage['memo-orders'] = JSON.stringify(memoOrders)
+    localStorage["memo-orders"] = JSON.stringify(memoOrders);
 
     document.querySelector("#orders")!.innerHTML = memoOrders
-      .map((order) => setupOrder(order))
+      .map(order => setupOrder(order))
       .join("");
+
+    data().forEach(order => {
+      const identifier = order.id;
+      setupOrderCounter(identifier);
+    });
   };
 
   let totalOrders = 0;
   const setTotalOrders = () => {
     totalOrders = totalProducts(memoOrders);
     document.querySelector("#total-products")!.innerHTML = String(totalOrders);
-    localStorage['total-orders'] = JSON.stringify(JSON.stringify(totalOrders))
+    localStorage["total-orders"] = JSON.stringify(JSON.stringify(totalOrders));
   };
   const setTotalPrice = (multiplier?: number) => {
-    const totalPrice = (sumOrders(memoOrders) * (multiplier || 1)).toFixed(2) 
+    const totalPrice = (sumOrders(memoOrders) * (multiplier || 1)).toFixed(2);
     document.querySelector("#total-price")!.innerHTML = "$" + totalPrice;
-    localStorage['total-price'] = JSON.stringify(totalPrice)
+    localStorage["total-price"] = JSON.stringify(totalPrice);
   };
 
   const init = () => {
-    const storageOrders = data()
+    const storageOrders = data();
 
     if (storageOrders && storageOrders.length > 0) {
       totalOrders = totalProducts(storageOrders);
@@ -35,15 +40,15 @@ export default () => {
       setTotalPrice(totalOrders);
       setTotalOrders();
     }
-  }
+  };
 
   const add = (order: Order) => {
-    const existingOrder = memoOrders.find(
-      (memoOrder) => memoOrder.order.id === order.order.id
+    const existingOrder = data().find(
+      memoOrder => memoOrder.order.id === order.order.id
     ) as Order;
 
     if (existingOrder) {
-      update(existingOrder);
+      update({ ...existingOrder, quantity: ++existingOrder.quantity });
     } else {
       memoOrders = [...memoOrders, order];
     }
@@ -54,9 +59,8 @@ export default () => {
   };
 
   const update = (newOrder: Order) => {
-    memoOrders = memoOrders.map((order) => {
-      if (order.id === newOrder.id)
-        return { ...newOrder, quantity: ++newOrder.quantity };
+    memoOrders = data().map(order => {
+      if (order.id === newOrder.id) return newOrder;
       return order;
     });
 
@@ -66,16 +70,26 @@ export default () => {
   };
 
   const remove = (orderId: Order["id"]) => {
-    memoOrders = memoOrders.filter((order) => order.id !== orderId);
+    memoOrders = memoOrders.filter(order => order.id !== orderId);
 
     setMemoOrders(memoOrders);
     setTotalPrice(totalOrders);
     setTotalOrders();
   };
 
-  const data = (): Order[] | never[] => {
-    return JSON.parse(localStorage.getItem('memo-orders') ?? '[]')
+  const clean = () => {
+    memoOrders = []
+    setMemoOrders([]);
+    setTotalPrice(0);
+    setTotalOrders();
   }
 
-  return { add, remove, update, data, init };
+  const data = (): Order[] | never[] => {
+    const localOrders = JSON.parse(localStorage.getItem("memo-orders") ?? "[]");
+    memoOrders = localOrders
+
+    return localOrders
+  };
+
+  return { add, remove, update, data, clean, init };
 };

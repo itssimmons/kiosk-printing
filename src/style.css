@@ -59,10 +59,18 @@ body,
   padding-top: 20px;
 }
 
+.top {
+  gap: 6px;
+  display: flex;
+  flex-direction: column;
+}
 .top > div {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.top > div #clean {
+  cursor: pointer;
 }
 
 #logo {
@@ -92,7 +100,7 @@ h1 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 160px));
   gap: 18px;
-  max-width: 340px;
+  max-width: 100%;
 }
 
 .card {
@@ -153,7 +161,8 @@ b {
   justify-content: space-between;
   gap: 20px;
 }
-.order button.minus, .order button.plus {
+.order button.minus,
+.order button.plus {
   display: grid;
   place-items: center;
   width: 40px;
@@ -163,7 +172,8 @@ b {
   font-weight: 800;
   background: #6b6b6b;
 }
-.order button.minus:hover, .order button.plus:hover {
+.order button.minus:hover,
+.order button.plus:hover {
   background: #818181;
 }
 
@@ -179,4 +189,3 @@ b {
     background-color: #f9f9f9;
   }
 }
-
