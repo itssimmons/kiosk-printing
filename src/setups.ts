@@ -20,7 +20,7 @@ export const setupOrder = (props: Order) => {
   const divOrder = document.createElement("div");
   divOrder.className = "order";
   divOrder.setAttribute("data-identify", String(props.id));
-  const menu = findMenuById(props.order.id)
+  const menu = findMenuById(props.order.id);
 
   divOrder.innerHTML = `
 	<img src="${props.order.preview}" alt="food order preview" />
@@ -51,14 +51,9 @@ export const setupOrderCounter = (identifier: string) => {
     destinationEl.innerHTML = `${counter}`;
 
     const order = data().find(order => order.id === identifier)!;
-    const menu = findMenuById(order.order.id)
 
     update({
       ...order,
-      order: {
-        ...order.order,
-        price: counter * menu.price,
-      },
       quantity: counter,
     });
   };
