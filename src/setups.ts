@@ -1,6 +1,6 @@
 import useOrder from "./hooks/useOrder";
-import entireMenu from "./assets/menu.json";
 import type { Catalog, Order, Ticket } from ".";
+import { findMenuById } from "./helpers/findMenuById";
 
 export const setupCatalogCard = (props: Catalog) => {
   const divCard = document.createElement("div");
@@ -20,11 +20,12 @@ export const setupOrder = (props: Order) => {
   const divOrder = document.createElement("div");
   divOrder.className = "order";
   divOrder.setAttribute("data-identify", String(props.id));
+  const menu = findMenuById(props.order.id)
 
   divOrder.innerHTML = `
 	<img src="${props.order.preview}" alt="food order preview" />
 	<p>${props.order.name}</p>
-	<strong>$${Number(props.order.price * props.quantity).toFixed(2)}</strong>
+	<strong>$${Number(menu.price * props.quantity).toFixed(2)}</strong>
 	<div>
 		<button type="button" class="plus" id="d@${props.id}">-</button>
 		<p id="q@${props.id}">${props.quantity}</p>
@@ -50,7 +51,7 @@ export const setupOrderCounter = (identifier: string) => {
     destinationEl.innerHTML = `${counter}`;
 
     const order = data().find(order => order.id === identifier)!;
-    const menu = entireMenu.find(catalog => catalog.id === order.order.id) as Catalog;
+    const menu = findMenuById(order.order.id)
 
     update({
       ...order,
@@ -75,6 +76,8 @@ export const setupTicket = (
   const date = `${now.getDay()}/${now.getMonth()}/${now.getFullYear()}`;
   const time = `${now.getHours()}:${now.getMinutes()}`;
 
+  console.log(orders)
+
   const ticketSect = document.createElement("section");
   ticketSect.id = "ticket";
   ticketSect.innerHTML = `
@@ -92,7 +95,7 @@ export const setupTicket = (
           .map(
             order => `<div class="product">
           <p>${order.order.name} (x${order.quantity})</p>
-          <b>${(order.order.price * order.quantity).toFixed(2)}$</b>
+          <b>${(findMenuById(order.order.id).price * order.quantity).toFixed(2)}$</b>
         </div>`
           )
           .join("")}

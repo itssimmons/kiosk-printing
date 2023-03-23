@@ -6,6 +6,7 @@ import type { Order } from "..";
 export default () => {
   let memoOrders: Order[] = [];
   const setMemoOrders = (orders: Order[]) => {
+    console.log(orders)
     memoOrders = orders;
     localStorage["memo-orders"] = JSON.stringify(memoOrders);
 
@@ -26,7 +27,7 @@ export default () => {
     localStorage["total-orders"] = JSON.stringify(JSON.stringify(totalOrders));
   };
   const setTotalPrice = (multiplier?: number) => {
-    const totalPrice = (sumOrders(memoOrders) * (multiplier || 1)).toFixed(2);
+    const totalPrice = (sumOrders(data()) * (multiplier || 1)).toFixed(2);
     document.querySelector("#total-price")!.innerHTML = "$" + totalPrice;
     localStorage["total-price"] = JSON.stringify(totalPrice);
   };
@@ -37,7 +38,7 @@ export default () => {
     if (storageOrders && storageOrders.length > 0) {
       totalOrders = totalProducts(storageOrders);
       setMemoOrders(storageOrders);
-      setTotalPrice(totalOrders);
+      setTotalPrice();
       setTotalOrders();
     }
   };
@@ -54,7 +55,7 @@ export default () => {
     }
 
     setMemoOrders(memoOrders);
-    setTotalPrice(totalOrders);
+    setTotalPrice();
     setTotalOrders();
   };
 
@@ -65,7 +66,7 @@ export default () => {
     });
 
     setMemoOrders(memoOrders);
-    setTotalPrice(totalOrders);
+    setTotalPrice();
     setTotalOrders();
   };
 
@@ -73,7 +74,7 @@ export default () => {
     memoOrders = memoOrders.filter(order => order.id !== orderId);
 
     setMemoOrders(memoOrders);
-    setTotalPrice(totalOrders);
+    setTotalPrice();
     setTotalOrders();
   };
 

@@ -80,7 +80,7 @@ const init = () => {
 		<div id="orders"></div>
 		<footer class="bottom">
 			<h5>Total</h5>
-			<strong id="total-price">$0</strong>
+			<strong id="total-price">$0.00</strong>
 			<button type="button" id="done">Done</button>
 		</footer>
 	`;
