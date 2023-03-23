@@ -76,8 +76,6 @@ export const setupTicket = (
   const date = `${now.getDay()}/${now.getMonth()}/${now.getFullYear()}`;
   const time = `${now.getHours()}:${now.getMinutes()}`;
 
-  console.log(orders)
-
   const ticketSect = document.createElement("section");
   ticketSect.id = "ticket";
   ticketSect.innerHTML = `

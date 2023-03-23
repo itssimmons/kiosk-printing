@@ -6,7 +6,6 @@ import type { Order } from "..";
 export default () => {
   let memoOrders: Order[] = [];
   const setMemoOrders = (orders: Order[]) => {
-    console.log(orders)
     memoOrders = orders;
     localStorage["memo-orders"] = JSON.stringify(memoOrders);
 
